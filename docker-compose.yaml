@@ -1,17 +1,36 @@
 services:
-  postgres:
+  roadmk-db:
     image: postgres:16
-    platform: linux/arm64
-    container_name: amsm_postgres_new
+    container_name: roadmk_postgres
     restart: always
     environment:
       POSTGRES_DB: amsm_db
       POSTGRES_USER: amsm_user
       POSTGRES_PASSWORD: amsm_pass
     ports:
-      - "5434:5432"
+      - "5432:5432"
     volumes:
-      - amsm_postgres_data_new:/var/lib/postgresql/data
+      - roadmk_postgres_data:/var/lib/postgresql/data
+
+  roadmk-api:
+    build: .
+    container_name: roadmk_backend
+    restart: always
+    environment:
+      DATABASE_URL: postgresql+psycopg2://amsm_user:amsm_pass@roadmk-db:5432/amsm_db
+    ports:
+      - "8000:8000"
+    depends_on:
+      - roadmk-db
+
+  roadmk-frontend:
+    build: ./roadmk-frontend
+    container_name: roadmk_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - roadmk-api
 
 volumes:
-  amsm_postgres_data_new:
+  roadmk_postgres_data: 
