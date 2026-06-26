@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: roadmk-backend-service
+  namespace: roadmk
+spec:
+  selector:
+    app: roadmk-backend
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: roadmk-db-service
+  namespace: roadmk
+spec:
+  selector:
+    app: roadmk-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: roadmk-frontend-service
+  namespace: roadmk
+spec:
+  selector:
+    app: roadmk-frontend
+  ports:
+    - protocol: TCP
+      port: 5173
+      targetPort: 5173
+  type: NodePort

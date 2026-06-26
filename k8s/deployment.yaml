@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: roadmk-backend
+  namespace: roadmk
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: roadmk-backend
+  template:
+    metadata:
+      labels:
+        app: roadmk-backend
+    spec:
+      containers:
+        - name: roadmk-backend
+          image: mimi2005/roadmk-backend:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: postgresql+psycopg2://amsm_user:amsm_pass@roadmk-db:5432/amsm_db
+          envFrom:
+            - configMapRef:
+                name: roadmk-config
+            - secretRef:
+                name: roadmk-secret

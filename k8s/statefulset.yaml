@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: roadmk-db
+  namespace: roadmk
+spec:
+  serviceName: roadmk-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: roadmk-db
+  template:
+    metadata:
+      labels:
+        app: roadmk-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: roadmk-config
+            - secretRef:
+                name: roadmk-secret
+          volumeMounts:
+            - name: roadmk-db-storage
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: roadmk-db-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

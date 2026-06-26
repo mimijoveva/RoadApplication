@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: roadmk-ingress
+  namespace: roadmk
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: roadmk.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: roadmk-frontend-service
+                port:
+                  number: 5173
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: roadmk-backend-service
+                port:
+                  number: 8000

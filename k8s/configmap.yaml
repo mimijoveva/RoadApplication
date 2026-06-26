@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: roadmk-config
+  namespace: roadmk
+data:
+  POSTGRES_DB: amsm_db
+  POSTGRES_HOST: roadmk-db
+  POSTGRES_PORT: "5432"
+  APP_ENV: production
