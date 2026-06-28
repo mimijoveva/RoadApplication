@@ -32,3 +32,7 @@ jobs:
           context: ./roadmk-frontend
           push: true
           tags: mimi2005/roadmk-frontend:latest
+
+      - name: Deploy backend to Render
+        run: |
+          curl -X POST "https://api.render.com/deploy/srv-d90jpevavr4c738q2lug?key=kiozwR2guaY"
