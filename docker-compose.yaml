@@ -4,9 +4,9 @@ services:
     container_name: roadmk_postgres
     restart: always
     environment:
-      POSTGRES_DB: amsm_db
-      POSTGRES_USER: amsm_user
-      POSTGRES_PASSWORD: amsm_pass
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -17,7 +17,7 @@ services:
     container_name: roadmk_backend
     restart: always
     environment:
-      DATABASE_URL: postgresql+psycopg2://amsm_user:amsm_pass@roadmk-db:5432/amsm_db
+      DATABASE_URL: ${DATABASE_URL}
     ports:
       - "8000:8000"
     depends_on:
@@ -33,4 +33,4 @@ services:
       - roadmk-api
 
 volumes:
-  roadmk_postgres_data: 
+  roadmk_postgres_data:
